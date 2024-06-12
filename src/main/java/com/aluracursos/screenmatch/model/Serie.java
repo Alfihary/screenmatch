@@ -1,16 +1,30 @@
 package com.aluracursos.screenmatch.model;
 
+import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
+
 public class Serie {
+    @jakarta.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long Id; //crea un identificador unico dntro de la tabla
+    @Column(unique = true)
     private String titulo;
     private Integer totalDeTemporadas;
     private Double evaluacion;
     private String poster;
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String actores;
     private String sinopsis;
+
+    @Transient
+    private List<Episodio> episodios;
 
     public Serie(DatosSerie datosSerie) {
         this.titulo = datosSerie.titulo();
@@ -32,6 +46,14 @@ public class Serie {
                 ", genero=" + genero +
                 ", actores='" + actores + '\'' +
                 ", sinopsis='" + sinopsis + '\'';
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
     }
 
     public String getTitulo() {
